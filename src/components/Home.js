@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 
 class Home extends Component {
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            HI SANYU
-          </p>
-        </header>
-      </div>
-    );
+    var names = ['Jake', 'Jon', 'Thruster'];
+    var namesList = names.map(function(name){
+                    return <li>{name}</li>;
+                  })
+
+    return  <ul>{ namesList }</ul>
+
+  
   }
 }
 
