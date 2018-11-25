@@ -8,7 +8,7 @@ const pool = new pg.Pool({
 });
 
 module.exports = function (app) {
-  app.get('/states', function (req, res) {
+  app.get('/api/states', function (req, res) {
     pool.query('Select * from public.States order by States ASC').then(function({ rows }) {
       console.log(rows);
       res.json(rows);
@@ -22,7 +22,7 @@ module.exports = function (app) {
     // });
   });
 
-  app.get('/cities', function (req, res) {
+  app.get('/api/cities', function (req, res) {
     //console.log(req.params.state_code);
     // pool.query('Select * from public.cities_extended where state_code = 'PR' order by city ASC', [req.params.state_code]).then(function({ rows }) {
     //   console.log(rows);
