@@ -1,10 +1,10 @@
 const pg = require('pg');
 const pool = new pg.Pool({
-  user: 'noah',
-  host: '127.0.0.1',
-  database: 'postgres',
-  password: 'noah',
-  port: '5432'
+  user: process.env.AWS_USERNAME,
+  host: process.env.AWS_HOST,
+  database: process.env.AWS_DATABASE,
+  password: process.env.AWS_PWD,
+  port: process.env.AWS_PORT
 });
 
 module.exports = function (app) {

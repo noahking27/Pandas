@@ -38,6 +38,7 @@ class NativeSelects extends React.Component {
 
     
   componentDidMount() {
+      console.log('mounted')
     fetch('/states')
       .then(res => res.json())
     .then(states => {
@@ -68,6 +69,7 @@ class NativeSelects extends React.Component {
     };
 
     render() {
+        console.log('state ', this.state)
         const { classes } = this.props;
         const { states } = this.state;
         const { cities } = this.state
