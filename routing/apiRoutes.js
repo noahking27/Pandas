@@ -1,23 +1,32 @@
 const pg = require('pg');
 var fs = require('fs');
+const { Client } = require('pg');
 
-const pool = new pg.Pool({
-  user: process.env.AWS_USERNAME,
-  host: process.env.AWS_HOST,
-  database: process.env.AWS_DATABASE,
-  password: process.env.AWS_PWD,
-  port: process.env.AWS_PORT,
-  ssl  : {
-    ca : fs.readFileSync(__dirname + '/config/rds-combined-ca-bundle.pem')
-  }
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
 });
+
+client.connect();
+
+// OLD CONFIG MIGHT NOT NEED NOW
+// const pool = new pg.Pool({
+//   user: process.env.AWS_USERNAME,
+//   host: process.env.AWS_HOST,
+//   database: process.env.AWS_DATABASE,
+//   password: process.env.AWS_PWD,
+//   port: process.env.AWS_PORT,
+//   ssl  : {
+//     ca : fs.readFileSync(__dirname + '/config/rds-combined-ca-bundle.pem')
+//   }
+// });
 
 module.exports = function (app) {
   app.get('/api/states', function (req, res) {
-    pool.query('Select * from public.States order by States ASC').then(function({ rows }) {
+    client.query('Select * from public.States order by States ASC').then(function({ rows }) {
       console.log(rows);
       res.json(rows);
-      pool.end();
+      client.end();
     });
 
     // pool.query('Select * from public.cities_extended order by States ASC').then(function({ rows }) {
@@ -35,10 +44,10 @@ module.exports = function (app) {
     //   pool.end();
     // });
 
-    pool.query('SELECT city, state_code, zip, county, "ID", "Latitude", "Longitude" FROM public.cities_extended where state_code = "PR"').then(function({ rows }) {
+    client.query('SELECT city, state_code, zip, county, "ID", "Latitude", "Longitude" FROM public.cities_extended where state_code = "PR"').then(function({ rows }) {
       console.log(rows);
       res.json(rows);
-      pool.end();
+      client.end();
     })
 
     // pool.query('Select * from public.cities_extended order by States ASC').then(function({ rows }) {
