@@ -1,10 +1,15 @@
 const pg = require('pg');
+var fs = require('fs');
+
 const pool = new pg.Pool({
   user: process.env.AWS_USERNAME,
   host: process.env.AWS_HOST,
   database: process.env.AWS_DATABASE,
   password: process.env.AWS_PWD,
-  port: process.env.AWS_PORT
+  port: process.env.AWS_PORT,
+  ssl  : {
+    ca : fs.readFileSync(__dirname + '/config/rds-combined-ca-bundle.pem')
+  }
 });
 
 module.exports = function (app) {
